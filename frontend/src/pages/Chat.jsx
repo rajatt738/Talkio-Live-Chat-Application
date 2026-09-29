@@ -3,48 +3,14 @@ import socket from "../socket";
 import { getAvatarColor } from "../App";
 import styles from "./Chat.module.css";
 import API from "../services/api";
+import { Video, Phone, MoreVertical, Paperclip, Smile, Send, Mic, ArrowLeft, X, Trash2, MessageSquare } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const EMOJIS = [
-  "😀",
-  "😂",
-  "😍",
-  "🥰",
-  "😎",
-  "😭",
-  "😡",
-  "🤔",
-  "😴",
-  "🥳",
-  "👍",
-  "👎",
-  "❤️",
-  "🔥",
-  "✅",
-  "🎉",
-  "🙏",
-  "💯",
-  "😢",
-  "😮",
-  "🤣",
-  "😇",
-  "🤩",
-  "😏",
-  "🥺",
-  "😤",
-  "🤯",
-  "😱",
-  "🤗",
-  "😜",
-  "👏",
-  "💪",
-  "🤝",
-  "✌️",
-  "🫶",
-  "😅",
-  "🙈",
-  "💀",
-  "👀",
-  "🎊",
+  "😀", "😂", "😍", "🥰", "😎", "😭", "😡", "🤔", "😴", "🥳", 
+  "👍", "👎", "❤️", "🔥", "✅", "🎉", "🙏", "💯", "😢", "😮", 
+  "🤣", "😇", "🤩", "😏", "🥺", "😤", "🤯", "😱", "🤗", "😜", 
+  "👏", "💪", "🤝", "✌️", "🫶", "😅", "🙈", "💀", "👀", "🎊"
 ];
 
 export default function Chat({ userId, receiverId, onBack, isMobile }) {
@@ -125,10 +91,7 @@ export default function Chat({ userId, receiverId, onBack, isMobile }) {
 
   useEffect(() => {
     const handler = (e) => {
-      if (
-        !e.target.closest("#emoji-picker") &&
-        !e.target.closest("#emoji-btn")
-      ) {
+      if (!e.target.closest("#emoji-picker") && !e.target.closest("#emoji-btn")) {
         setShowEmoji(false);
       }
     };
@@ -225,13 +188,10 @@ export default function Chat({ userId, receiverId, onBack, isMobile }) {
       yesterday.setDate(today.getDate() - 1);
       let label;
       if (d.toDateString() === today.toDateString()) label = "Today";
-      else if (d.toDateString() === yesterday.toDateString())
-        label = "Yesterday";
+      else if (d.toDateString() === yesterday.toDateString()) label = "Yesterday";
       else
         label = d.toLocaleDateString([], {
-          weekday: "long",
-          month: "short",
-          day: "numeric",
+          weekday: "long", month: "short", day: "numeric",
         });
       if (!groups[label]) groups[label] = [];
       groups[label].push(msg);
@@ -241,36 +201,45 @@ export default function Chat({ userId, receiverId, onBack, isMobile }) {
 
   const grouped = groupByDate(messages);
   const receiverColor = getAvatarColor(receiverId);
-  const senderColor = getAvatarColor(userId);
 
   return (
     <div className={styles.wrapper}>
+      {/* Header */}
       <div className={styles.header}>
-        {isMobile && (
-          <button onClick={onBack} className={styles.backBtn}>
-            ←
-          </button>
-        )}
-        <div className={styles.headerAvatar} style={{ background: receiverColor }}>
-          {receiverId[0]?.toUpperCase()}
-        </div>
-        <div style={{ flex: 1 }}>
-          <div className={styles.headerName}>{receiverId}</div>
-          <div
-            style={{ fontSize: 12, color: isOnline ? "#4ade80" : "#94a3b8" }}
-          >
-            {isTyping ? "✍️ typing..." : isOnline ? "● Online" : "● Offline"}
+        <div className={styles.headerInfo}>
+          {isMobile && (
+            <button onClick={onBack} className={styles.backBtn}>
+              <ArrowLeft size={20} />
+            </button>
+          )}
+          <div className={styles.headerAvatar} style={{ background: receiverColor }}>
+            {receiverId[0]?.toUpperCase()}
           </div>
+          <div>
+            <div className={styles.headerName}>{receiverId}</div>
+            <div className={styles.statusText} style={{ color: isOnline ? 'var(--color-status-online)' : 'var(--color-text-secondary)' }}>
+              {isTyping ? "typing..." : isOnline ? (
+                <><span className={styles.statusDot} style={{ background: 'var(--color-status-online)' }} /> Online</>
+              ) : "Offline"}
+            </div>
+          </div>
+        </div>
+        <div className={styles.headerActions}>
+          <button className={styles.actionBtn}><Video size={20} /></button>
+          <button className={styles.actionBtn}><Phone size={20} /></button>
+          <button className={styles.actionBtn}><MoreVertical size={20} /></button>
         </div>
       </div>
 
+      {/* Message Area */}
       <div className={styles.messageArea}>
         {messages.length === 0 && (
           <div className={styles.emptyState}>
-            <div style={{ fontSize: 48, marginBottom: 8 }}>👋</div>
-            <div style={{ color: "#94a3b8", fontSize: 14 }}>
-              No messages yet. Say hi!
+            <div className="w-24 h-24 mb-6 rounded-full bg-bg-elevated flex items-center justify-center text-primary border border-border-subtle shadow-xl">
+              <MessageSquare size={40} />
             </div>
+            <h3 className="text-xl font-bold text-white mb-2">Start the conversation</h3>
+            <p className="text-text-secondary text-sm">Send a message to start chatting with {receiverId}.</p>
           </div>
         )}
 
@@ -282,222 +251,159 @@ export default function Chat({ userId, receiverId, onBack, isMobile }) {
             {msgs.map((msg, i) => {
               const isSelf = msg.sender === userId;
               return (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    justifyContent: isSelf ? "flex-end" : "flex-start",
-                    marginBottom: 6,
-                    alignItems: "flex-end",
-                    gap: 6,
-                  }}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  key={msg._id || i}
+                  className={`${styles.msgWrapper} ${isSelf ? styles.msgWrapperSelf : styles.msgWrapperOther}`}
                   onMouseEnter={() => setHoveredMsg(msg._id)}
                   onMouseLeave={() => setHoveredMsg(null)}
                 >
                   {!isSelf && (
-                    <div
-                      className={styles.msgAvatar}
-                      style={{ background: receiverColor }}
-                    >
+                    <div className={styles.msgAvatar} style={{ background: receiverColor }}>
                       {receiverId[0]?.toUpperCase()}
                     </div>
                   )}
-                  <div style={{ maxWidth: "65%", position: "relative" }}>
+                  <div className={styles.msgContent}>
                     {isSelf && !msg.deleted && hoveredMsg === msg._id && (
-                      <button
-                        onClick={() => deleteMessage(msg._id)}
-                        className={styles.deleteBtn}
-                      >
-                        🗑️
+                      <button onClick={() => deleteMessage(msg._id)} className={styles.deleteBtn} title="Delete message">
+                        <Trash2 size={14} />
                       </button>
                     )}
                     {msg.deleted ? (
-                      <div
-                        className={`${styles.bubble} ${styles.bubbleDeleted}`}
-                      >
-                        <span style={{ fontStyle: "italic", opacity: 0.6 }}>
-                          🚫 Message deleted
-                        </span>
+                      <div className={`${styles.bubble} ${styles.bubbleDeleted}`}>
+                        <span style={{ fontStyle: "italic" }}>🚫 Message deleted</span>
                       </div>
                     ) : msg.messageType === "image" ? (
-                      <div
-                        className={`${styles.bubble} ${isSelf ? styles.bubbleSelf : styles.bubbleOther}`}
-                        style={{ padding: 6 }}
-                      >
+                      <div className={`${styles.bubble} ${isSelf ? styles.bubbleSelf : styles.bubbleOther}`} style={{ padding: 6 }}>
                         <img
                           src={`http://localhost:5000${msg.imageUrl}`}
                           alt="sent"
-                          onClick={() =>
-                            setLightboxImg(
-                              `http://localhost:5000${msg.imageUrl}`,
-                            )
-                          }
+                          onClick={() => setLightboxImg(`http://localhost:5000${msg.imageUrl}`)}
                           className={styles.msgImage}
                         />
                       </div>
                     ) : (
-                      <div
-                        className={`${styles.bubble} ${isSelf ? styles.bubbleSelf : styles.bubbleOther}`}
-                      >
+                      <div className={`${styles.bubble} ${isSelf ? styles.bubbleSelf : styles.bubbleOther}`}>
                         {msg.content}
                       </div>
                     )}
-                    <div
-                      className={styles.timeStamp}
-                      style={{ textAlign: isSelf ? "right" : "left" }}
-                    >
+                    <div className={styles.timeStamp} style={{ justifyContent: isSelf ? 'flex-end' : 'flex-start' }}>
                       {formatTime(msg.createdAt)}
-                      {isSelf && !msg.deleted && (
-                        <span style={{ marginLeft: 4, color: "#818cf8" }}>
-                          ✓✓
-                        </span>
-                      )}
+                      {isSelf && !msg.deleted && <span style={{ color: "var(--color-accent-blue)", marginLeft: 2 }}>✓✓</span>}
                     </div>
                   </div>
-                  {isSelf && (
-                    <div
-                      className={styles.msgAvatar}
-                      style={{ background: senderColor }}
-                    >
-                      {userId[0]?.toUpperCase()}
-                    </div>
-                  )}
-                </div>
+                </motion.div>
               );
             })}
           </div>
         ))}
 
         {isTyping && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              marginTop: 4,
-            }}
-          >
+          <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} className={styles.typingIndicator}>
             <div className={styles.msgAvatar} style={{ background: receiverColor }}>
               {receiverId[0]?.toUpperCase()}
             </div>
-            <div
-              className={`${styles.bubble} ${styles.bubbleOther}`}
-              style={{ padding: "12px 16px" }}
-            >
+            <div className={`${styles.bubble} ${styles.bubbleOther}`} style={{ padding: "14px 18px" }}>
               <div className={styles.typingDots}>
                 <span className={styles.dot} style={{ animationDelay: "0s" }} />
                 <span className={styles.dot} style={{ animationDelay: "0.2s" }} />
                 <span className={styles.dot} style={{ animationDelay: "0.4s" }} />
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
         <div ref={bottomRef} />
       </div>
 
+      {/* Image Preview Bar */}
       {imagePreview && (
         <div className={styles.imagePreviewBar}>
-          <img
-            src={imagePreview}
-            alt="preview"
-            style={{ height: 80, borderRadius: 8, objectFit: "cover" }}
-          />
-          <div style={{ flex: 1, paddingLeft: 12 }}>
-            <div style={{ fontSize: 13, color: "#1e293b", fontWeight: 600 }}>
-              Ready to send
-            </div>
-            <div style={{ fontSize: 11, color: "#94a3b8" }}>
-              {imageFile?.name}
-            </div>
+          <div className="w-16 h-16 rounded-xl overflow-hidden border border-border-subtle bg-bg-base flex-shrink-0">
+            <img src={imagePreview} alt="preview" className="w-full h-full object-cover" />
           </div>
-          <button
-            onClick={() => {
-              setImagePreview(null);
-              setImageFile(null);
-            }}
-            className={styles.cancelPreviewBtn}
-          >
-            ✕
+          <div className="flex-1 min-w-0">
+            <div className="text-sm text-white font-semibold truncate">{imageFile?.name}</div>
+            <div className="text-xs text-text-secondary mt-1">Ready to send</div>
+          </div>
+          <button onClick={() => { setImagePreview(null); setImageFile(null); }} className={styles.cancelPreviewBtn}>
+            <X size={18} />
           </button>
-          <button
-            onClick={sendImage}
-            disabled={uploading}
-            className={styles.sendImageBtn}
-          >
-            {uploading ? "⏳" : "Send 📤"}
+          <button onClick={sendImage} disabled={uploading} className={styles.sendImageBtn}>
+            {uploading ? "Sending..." : "Send Image"}
           </button>
         </div>
       )}
 
-      {showEmoji && (
-        <div id="emoji-picker" className={styles.emojiPicker}>
-          {EMOJIS.map((emoji, i) => (
-            <button
-              key={i}
-              onClick={() => setMessage((p) => p + emoji)}
-              className={styles.emojiBtn}
-            >
-              {emoji}
-            </button>
-          ))}
-        </div>
-      )}
+      {/* Emoji Picker */}
+      <AnimatePresence>
+        {showEmoji && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 10 }}
+            transition={{ duration: 0.15 }}
+            id="emoji-picker" 
+            className={styles.emojiPicker}
+          >
+            {EMOJIS.map((emoji, i) => (
+              <button key={i} onClick={() => setMessage((p) => p + emoji)} className={styles.emojiBtn}>
+                {emoji}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
+      {/* Input Area */}
       <div className={styles.inputArea}>
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          style={{ display: "none" }}
-        />
-        <button
-          onClick={() => fileInputRef.current.click()}
-          className={styles.iconBtn}
-        >
-          📎
+        <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFileChange} style={{ display: "none" }} />
+        <button onClick={() => fileInputRef.current.click()} className={styles.iconBtn} title="Attach Image">
+          <Paperclip size={20} />
         </button>
-        <button
-          id="emoji-btn"
-          onClick={() => setShowEmoji((p) => !p)}
-          className={styles.iconBtn}
-        >
-          😊
-        </button>
-        <input
-          value={message}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          placeholder="Type a message..."
-          className={styles.input}
-        />
+        <div className={styles.inputWrapper}>
+          <button id="emoji-btn" onClick={() => setShowEmoji((p) => !p)} className={styles.iconBtn} style={{ width: 36, height: 36 }}>
+            <Smile size={20} />
+          </button>
+          <input
+            value={message}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            placeholder="Type a message..."
+            className={styles.input}
+          />
+          <button className={styles.iconBtn} style={{ width: 36, height: 36 }} title="Voice Message">
+            <Mic size={20} />
+          </button>
+        </div>
         <button
           onClick={sendMessage}
           disabled={!message.trim()}
-          className={styles.sendBtn} style={{ opacity: message.trim() ? 1 : 0.5, background: getAvatarColor(userId) }}
+          className={styles.sendBtn} 
         >
-          ➤
+          <Send size={18} className={message.trim() ? "ml-1" : ""} />
         </button>
       </div>
 
-      {lightboxImg && (
-        <div className={styles.lightbox} onClick={() => setLightboxImg(null)}>
-          <img src={lightboxImg} alt="full" className={styles.lightboxImg} />
-          <button
-            className={styles.lightboxClose}
+      {/* Image Lightbox */}
+      <AnimatePresence>
+        {lightboxImg && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className={styles.lightbox} 
             onClick={() => setLightboxImg(null)}
           >
-            ✕
-          </button>
-        </div>
-      )}
-
-      <style>{`
-        @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
-      `}</style>
+            <motion.img 
+              initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }}
+              src={lightboxImg} alt="full" className={styles.lightboxImg} 
+            />
+            <button className={styles.lightboxClose} onClick={() => setLightboxImg(null)}>
+              <X size={24} />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
-
