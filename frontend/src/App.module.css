@@ -1,0 +1,220 @@
+@reference "./index.css";
+
+.authBg {
+  @apply min-h-screen bg-slate-950 flex items-center justify-center p-4 relative overflow-hidden;
+}
+
+.authBg::before {
+  content: "";
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/30 rounded-full blur-[100px] pointer-events-none;
+}
+
+.authBg::after {
+  content: "";
+  @apply absolute bottom-0 right-0 w-[400px] h-[400px] bg-purple-500/20 rounded-full blur-[80px] pointer-events-none;
+}
+
+.authCard {
+  @apply bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-10 w-full max-w-md shadow-2xl relative z-10;
+}
+
+.authLogo {
+  @apply text-center mb-8;
+}
+
+.authTitle {
+  @apply mt-2 mb-1 text-3xl font-black text-white tracking-tight;
+}
+
+.authSubtitle {
+  @apply m-0 text-slate-400 text-sm font-medium;
+}
+
+.switchText {
+  @apply text-center text-slate-400 text-sm mt-6;
+}
+
+.switchLink {
+  @apply text-indigo-400 cursor-pointer font-bold hover:text-indigo-300 transition-colors ml-1;
+}
+
+.appLayout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.mobileTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #1e293b;
+  flex-shrink: 0;
+}
+
+.menuBtn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.sidebar {
+  width: 280px;
+  background: #1e293b;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+.sidebarMobile {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  z-index: 100;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.3);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 99;
+}
+
+.sidebarHeader {
+  padding: 20px 16px 12px;
+  border-bottom: 1px solid #334155;
+}
+
+.sidebarLogo {
+  font-size: 18px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 16px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.logoutBtn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.newChatSection {
+  padding: 16px;
+  border-bottom: 1px solid #334155;
+}
+
+.sectionLabel {
+  font-size: 11px;
+  color: #64748b;
+  margin-bottom: 8px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.sidebarInput {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #0f172a;
+  color: #f1f5f9;
+  font-size: 13px;
+  outline: none;
+}
+
+.startBtn {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #6366f1;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.recentItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 2px;
+}
+
+.recentAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  flex-shrink: 0;
+}
+
+.badge {
+  background: #6366f1;
+  color: white;
+  border-radius: 50%;
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 0 4px;
+}
+
+.mainArea {
+  flex: 1;
+  padding: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.welcomeScreen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+}
