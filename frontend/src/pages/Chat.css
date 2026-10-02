@@ -1,25 +1,28 @@
-﻿/* ==========================================================
+@reference "tailwindcss";
+
+/* ==========================================================
    TALKIO — Chat Page Styles  (src/pages/Chat.css)
    Scoped styles for the Chat component.
-   We use @apply with Tailwind utilities to stay consistent
-   with the design token system defined in styles/theme.css.
+   Uses @apply with Tailwind utilities only (no custom classes).
    ========================================================== */
 
 /* ── Layout ─────────────────────────────────────────────── */
 
 .chat-wrapper {
-  @apply flex flex-col h-full w-full bg-bg-base relative;
+  @apply flex flex-col h-full w-full relative;
+  background: var(--color-bg-base);
 }
 
 /* ── Header ─────────────────────────────────────────────── */
 
 .chat-header {
   @apply flex items-center justify-between px-6 py-4
-         bg-bg-card/80 backdrop-blur-xl
-         border-b border-border-subtle flex-shrink-0 z-20;
+         backdrop-blur-xl border-b flex-shrink-0 z-20;
+  background: rgba(18, 26, 48, 0.8);
+  border-color: var(--color-border-subtle);
 }
 
-.chat-header-info   { @apply flex items-center gap-4; }
+.chat-header-info    { @apply flex items-center gap-4; }
 .chat-header-actions { @apply flex items-center gap-2; }
 
 .chat-header-avatar {
@@ -28,27 +31,41 @@
 }
 
 .chat-header-name {
-  @apply font-bold text-base text-text-primary tracking-tight mb-0.5;
+  @apply font-bold text-base tracking-tight mb-0.5;
+  color: var(--color-text-primary);
 }
 
-.chat-status {
-  @apply text-xs flex items-center gap-1;
-}
-
-.chat-status-dot {
-  @apply w-2 h-2 rounded-full;
-}
+.chat-status      { @apply text-xs flex items-center gap-1; }
+.chat-status-dot  { @apply w-2 h-2 rounded-full; }
 
 .chat-back-btn {
-  @apply btn-icon mr-[-4px];
+  @apply flex items-center justify-center w-10 h-10 rounded-full
+         bg-transparent border-none cursor-pointer transition-colors duration-200 -mr-1;
+  color: var(--color-text-secondary);
+}
+.chat-back-btn:hover {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+}
+
+/* ── Icon Button (reusable) ─────────────────────────────── */
+
+.chat-icon-btn {
+  @apply flex items-center justify-center w-10 h-10 rounded-full
+         bg-transparent border-none cursor-pointer transition-colors duration-200;
+  color: var(--color-text-secondary);
+}
+.chat-icon-btn:hover {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
 }
 
 /* ── Message Area ───────────────────────────────────────── */
 
 .chat-message-area {
-  @apply flex-1 overflow-y-auto px-6 py-6 flex flex-col
-         [background-image:radial-gradient(circle_at_center,rgba(255,255,255,0.01)_0,transparent_1px)]
-         [background-size:24px_24px];
+  @apply flex-1 overflow-y-auto px-6 py-6 flex flex-col;
+  background-image: radial-gradient(circle at center, rgba(255,255,255,0.01) 0, transparent 1px);
+  background-size: 24px 24px;
 }
 
 .chat-empty-state {
@@ -57,21 +74,22 @@
 
 /* ── Date Separator ─────────────────────────────────────── */
 
-.date-separator {
-  @apply flex justify-center my-8;
-}
+.date-separator { @apply flex justify-center my-8; }
 
 .date-label {
-  @apply bg-bg-elevated border border-border-subtle text-text-secondary
-         text-[11px] px-4 py-1.5 rounded-3xl font-semibold
-         shadow-[0_4px_10px_rgba(0,0,0,0.1)];
+  @apply text-[11px] px-4 py-1.5 rounded-3xl font-semibold;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
 /* ── Message Bubbles ────────────────────────────────────── */
 
 .msg-avatar {
   @apply w-8 h-8 rounded-full flex items-center justify-center
-         text-xs font-extrabold text-white flex-shrink-0 self-end mb-[18px];
+         text-xs font-extrabold text-white flex-shrink-0 self-end;
+  margin-bottom: 18px;
 }
 
 .msg-wrapper {
@@ -79,46 +97,45 @@
   max-width: 80%;
 }
 
-.msg-wrapper-self  { @apply justify-end self-end;  }
+.msg-wrapper-self  { @apply justify-end self-end; }
 .msg-wrapper-other { @apply justify-start self-start; }
-
-.msg-content { @apply flex flex-col relative; }
+.msg-content       { @apply flex flex-col relative; }
 
 .msg-timestamp {
-  @apply text-[11px] text-text-secondary mt-1.5 font-medium
-         flex items-center gap-1;
+  @apply text-[11px] mt-1.5 font-medium flex items-center gap-1;
+  color: var(--color-text-secondary);
 }
 
 /* ── Delete Button (hover reveal) ───────────────────────── */
 
 .msg-delete-btn {
-  @apply absolute top-1/2 -translate-y-1/2 -left-10
-         bg-red-500/10 text-red-400 border border-red-500/20
-         rounded-full w-8 h-8 flex items-center justify-center
-         opacity-0 scale-90 transition-all duration-200
-         cursor-pointer backdrop-blur-sm;
+  @apply absolute -left-10 flex items-center justify-center
+         w-8 h-8 rounded-full cursor-pointer backdrop-blur-sm
+         border transition-all duration-200;
+  top: 50%;
+  transform: translateY(-50%) scale(0.9);
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.2);
+  opacity: 0;
 }
-
 .msg-content:hover .msg-delete-btn {
-  @apply opacity-100 scale-100;
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
 }
-
 .msg-delete-btn:hover {
-  @apply bg-red-500 text-white;
+  background: #ef4444;
+  color: white;
 }
 
 /* ── Typing Indicator ───────────────────────────────────── */
 
-.typing-indicator {
-  @apply flex items-center gap-3 self-start mb-4;
-}
-
-.typing-dots {
-  @apply flex gap-[5px] items-center h-5;
-}
+.typing-indicator { @apply flex items-center gap-3 self-start mb-4; }
+.typing-dots      { @apply flex gap-[5px] items-center h-5; }
 
 .typing-dot {
-  @apply w-1.5 h-1.5 rounded-full bg-text-secondary;
+  @apply w-1.5 h-1.5 rounded-full;
+  background: var(--color-text-secondary);
   animation: typing-bounce 1.4s infinite ease-in-out both;
 }
 
@@ -130,99 +147,123 @@
 /* ── Image Preview Bar ──────────────────────────────────── */
 
 .image-preview-bar {
-  @apply flex items-center gap-4 px-6 py-3
-         bg-bg-card/95 backdrop-blur-2xl
-         border-t border-border-subtle;
+  @apply flex items-center gap-4 px-6 py-3 backdrop-blur-2xl border-t;
+  background: rgba(18, 26, 48, 0.95);
+  border-color: var(--color-border-subtle);
 }
 
 .image-preview-cancel-btn {
-  @apply btn-icon flex-shrink-0;
+  @apply flex items-center justify-center w-10 h-10 rounded-full
+         border-none cursor-pointer flex-shrink-0 transition-colors duration-200;
+  background: var(--color-bg-elevated);
+  color: var(--color-text-secondary);
+}
+.image-preview-cancel-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
 }
 
 .image-preview-send-btn {
-  @apply px-6 py-2.5 rounded-3xl font-semibold text-sm text-white
-         bg-gradient-to-r from-primary to-accent-blue
-         hover:shadow-lg hover:shadow-primary/30
-         transition-all duration-200 border-none cursor-pointer
-         disabled:opacity-60 disabled:cursor-not-allowed;
+  @apply px-6 py-2.5 rounded-3xl font-semibold text-sm text-white border-none cursor-pointer
+         transition-all duration-200;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent-blue));
+}
+.image-preview-send-btn:hover {
+  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4);
+}
+.image-preview-send-btn:disabled {
+  @apply opacity-60 cursor-not-allowed;
 }
 
 /* ── Emoji Picker ───────────────────────────────────────── */
 
 .emoji-picker {
-  @apply absolute bottom-[90px] left-6
-         bg-bg-card border border-border-subtle rounded-2xl
-         p-4 flex flex-wrap w-80 gap-2
-         shadow-[0_20px_40px_rgba(0,0,0,0.5)] z-50;
+  @apply absolute flex flex-wrap gap-2 p-4 rounded-2xl z-50;
+  bottom: 90px;
+  left: 24px;
+  width: 320px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border-subtle);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
 }
 
 .emoji-btn {
-  @apply bg-transparent border-none text-2xl cursor-pointer
-         p-1.5 rounded-xl transition-all duration-100
-         hover:bg-bg-elevated hover:scale-110;
+  @apply bg-transparent border-none text-2xl cursor-pointer p-1.5 rounded-xl
+         transition-all duration-100;
+}
+.emoji-btn:hover {
+  background: var(--color-bg-elevated);
+  transform: scale(1.1);
 }
 
 /* ── Input Area ─────────────────────────────────────────── */
 
 .chat-input-area {
-  @apply flex gap-3 px-6 py-4 items-center
-         bg-bg-card/90 backdrop-blur-xl
-         border-t border-border-subtle z-20;
+  @apply flex gap-3 px-6 py-4 items-center backdrop-blur-xl border-t z-20;
+  background: rgba(18, 26, 48, 0.9);
+  border-color: var(--color-border-subtle);
 }
 
 .chat-input-wrapper {
-  @apply flex-1 flex items-center
-         bg-bg-elevated rounded-3xl
-         border border-border-subtle px-1.5 py-1
-         transition-all duration-200;
+  @apply flex-1 flex items-center rounded-3xl px-1.5 py-1 transition-all duration-200;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-subtle);
 }
-
 .chat-input-wrapper:focus-within {
-  @apply border-primary shadow-[0_0_0_2px_rgba(108,92,231,0.2)];
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
 }
 
 .chat-input {
-  @apply flex-1 px-4 py-2.5 border-none bg-transparent
-         text-text-primary text-[15px] outline-none
-         placeholder:text-text-secondary;
+  @apply flex-1 px-4 py-2.5 border-none bg-transparent text-[15px] outline-none;
+  color: var(--color-text-primary);
 }
+.chat-input::placeholder { color: var(--color-text-secondary); }
 
 .chat-send-btn {
   @apply w-11 h-11 rounded-full flex items-center justify-center
-         bg-primary text-white border-none cursor-pointer
-         shadow-[0_4px_15px_rgba(108,92,231,0.4)]
-         transition-all duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)];
+         text-white border-none cursor-pointer
+         transition-all duration-200;
+  background: var(--color-primary);
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-
 .chat-send-btn:not(:disabled):hover {
-  @apply scale-105 shadow-[0_6px_20px_rgba(108,92,231,0.6)];
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(108, 92, 231, 0.6);
 }
-
 .chat-send-btn:disabled {
-  @apply bg-bg-elevated text-text-secondary shadow-none cursor-not-allowed;
+  background: var(--color-bg-elevated);
+  color: var(--color-text-secondary);
+  box-shadow: none;
+  cursor: not-allowed;
 }
 
 /* ── Image Lightbox ─────────────────────────────────────── */
 
 .lightbox {
-  @apply fixed inset-0 bg-bg-base/95 backdrop-blur-lg
-         flex items-center justify-center z-[1000] cursor-zoom-out;
+  @apply fixed inset-0 flex items-center justify-center z-[1000] cursor-zoom-out backdrop-blur-lg;
+  background: rgba(8, 11, 24, 0.95);
 }
 
 .lightbox-img {
-  @apply max-w-[90vw] max-h-[90vh] rounded-2xl object-contain
-         shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)];
+  @apply max-w-[90vw] max-h-[90vh] rounded-2xl object-contain;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
 }
 
 .lightbox-close-btn {
-  @apply absolute top-6 right-6 btn-icon
-         bg-bg-elevated/60 hover:bg-bg-elevated
-         text-white;
+  @apply absolute top-6 right-6 flex items-center justify-center
+         w-10 h-10 rounded-full border-none cursor-pointer
+         text-white transition-colors duration-200;
+  background: rgba(25, 35, 59, 0.6);
 }
+.lightbox-close-btn:hover { background: var(--color-bg-elevated); }
 
-/* ── Sent Image ─────────────────────────────────────────── */
+/* ── Sent Image Thumbnail ───────────────────────────────── */
 
 .msg-image {
-  @apply max-w-[280px] max-h-[280px] rounded-xl block cursor-zoom-in
-         object-cover transition-transform duration-200 hover:scale-[1.02];
+  @apply block rounded-xl cursor-zoom-in object-cover transition-transform duration-200;
+  max-width: 280px;
+  max-height: 280px;
 }
+.msg-image:hover { transform: scale(1.02); }

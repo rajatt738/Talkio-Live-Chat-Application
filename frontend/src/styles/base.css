@@ -1,4 +1,6 @@
-﻿/* ==========================================================
+@reference "tailwindcss";
+
+/* ==========================================================
    TALKIO — BASE STYLES  (src/styles/base.css)
    Global resets, typography defaults, and scrollbar styling.
    ========================================================== */
@@ -20,9 +22,6 @@
     color: var(--color-text-primary);
     overflow: hidden;
   }
-
-  /* Google Font — Inter */
-  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 }
 
 /* ── Custom Scrollbar ─────────────────────────────────────── */
