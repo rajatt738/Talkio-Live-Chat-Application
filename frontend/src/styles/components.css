@@ -1,0 +1,108 @@
+@reference "tailwindcss";
+
+/* ==========================================================
+   TALKIO — COMPONENT UTILITIES  (src/styles/components.css)
+   Reusable @layer components classes built on Tailwind.
+   Use these in JSX className instead of repeating long strings.
+   ========================================================== */
+
+@layer components {
+
+  /* ── Primary gradient button ────────────────────────────── */
+  .btn-primary {
+    @apply w-full py-3.5 px-4 rounded-xl font-bold text-sm text-white
+           flex items-center justify-center gap-2
+           transition-all duration-300
+           disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none;
+    background: linear-gradient(to right, var(--color-primary), #8A71F6, var(--color-accent-pink));
+    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.2);
+  }
+  .btn-primary:not(:disabled):hover {
+    box-shadow: 0 6px 24px rgba(108, 92, 231, 0.4);
+    transform: translateY(-2px);
+  }
+
+  /* ── Auth card surface ──────────────────────────────────── */
+  .auth-card {
+    @apply relative w-full rounded-3xl p-8 shadow-2xl backdrop-blur-2xl border;
+    background: rgba(18, 26, 48, 0.8);
+    border-color: var(--color-border-subtle);
+  }
+
+  /* ── Error alert ────────────────────────────────────────── */
+  .alert-error {
+    @apply flex items-center gap-2 p-3 rounded-xl text-sm mb-6 border;
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    border-color: rgba(239, 68, 68, 0.2);
+  }
+
+  /* ── Form label ─────────────────────────────────────────── */
+  .form-label {
+    @apply block text-xs font-semibold uppercase tracking-wider pl-1;
+    color: var(--color-text-secondary);
+  }
+
+  /* ── Input field ────────────────────────────────────────── */
+  .input-field {
+    @apply w-full py-3.5 rounded-xl text-sm outline-none transition-all;
+    background: rgba(25, 35, 59, 0.5);
+    border: 1px solid var(--color-border-subtle);
+    color: var(--color-text-primary);
+  }
+  .input-field::placeholder { color: #64748b; }
+  .input-field:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
+
+  /* ── Input left-icon padding ────────────────────────────── */
+  .input-with-icon { @apply pl-11 pr-4; }
+
+  /* ── Bubble base ────────────────────────────────────────── */
+  .bubble-base {
+    @apply text-[15px] leading-relaxed break-words;
+    padding: 12px 18px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  .bubble-self {
+    @apply text-white;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent-blue));
+    border-radius: 20px 20px 4px 20px;
+  }
+
+  .bubble-other {
+    border-radius: 20px 20px 20px 4px;
+    background: var(--color-bg-elevated);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border-subtle);
+  }
+
+  .bubble-deleted {
+    @apply italic;
+    background: transparent;
+    border: 1px dashed var(--color-border-subtle);
+    color: var(--color-text-secondary);
+    border-radius: 20px;
+    padding: 10px 16px;
+  }
+
+  /* ── Unread badge ───────────────────────────────────────── */
+  .unread-badge {
+    @apply w-5 h-5 rounded-full flex items-center justify-center
+           text-[10px] font-bold flex-shrink-0 text-white;
+    background: var(--color-accent-pink);
+    box-shadow: 0 4px 12px rgba(217, 70, 160, 0.3);
+  }
+
+  /* ── Status dots ────────────────────────────────────────── */
+  .status-dot-online  {
+    @apply w-2 h-2 rounded-full animate-pulse;
+    background: var(--color-status-online);
+  }
+  .status-dot-offline {
+    @apply w-2 h-2 rounded-full;
+    background: var(--color-status-offline);
+  }
+}

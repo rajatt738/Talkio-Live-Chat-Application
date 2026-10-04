@@ -33,6 +33,7 @@ function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [activeTab, setActiveTab] = useState("chats");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isConnected, setIsConnected] = useState(socket.connected);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -51,6 +52,12 @@ function App() {
     socket.connect();
     socket.emit("user:online", user.username);
 
+    const onConnect = () => setIsConnected(true);
+    const onDisconnect = () => setIsConnected(false);
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+
     socket.on("receive:private", (msg) => {
       if (msg.receiver === user.username && msg.sender !== receiverId) {
         setUnreadCounts((prev) => ({
@@ -65,6 +72,8 @@ function App() {
     });
 
     return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
       socket.off("receive:private");
       socket.disconnect();
     };
@@ -122,7 +131,9 @@ function App() {
       {(!isMobile || isMobileMenuOpen) && (
         <div className={`w-[240px] lg:w-[80px] lg:flex-col bg-bg-sidebar flex flex-col justify-between border-r border-border-subtle z-40 transition-all duration-300 ${isMobile ? 'fixed inset-y-0 left-0' : 'relative'}`}>
           <div className="flex flex-col items-center py-6 gap-8">
-            <div className="text-3xl lg:text-2xl animate-pulse">🔥</div>
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/30">
+              <MessageSquare size={20} className="text-white" />
+            </div>
             
             <div className="flex lg:flex-col w-full px-4 lg:px-0 gap-2 lg:items-center">
               <NavButton icon={<MessageSquare size={22} />} label="Chats" active={activeTab === "chats"} onClick={() => setActiveTab("chats")} />
@@ -265,15 +276,28 @@ function App() {
         )}
 
         {!chatStarted ? (
-          <div className="flex-1 flex flex-col items-center justify-center text-center p-8 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-opacity-5">
-            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5 }}>
-              <div className="w-24 h-24 bg-bg-card rounded-3xl flex items-center justify-center text-5xl mb-6 shadow-2xl mx-auto border border-border-subtle">
-                💬
+          <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
+            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5, ease: 'easeOut' }} className="flex flex-col items-center">
+              {/* Logo ring */}
+              <div className="relative mb-8">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500/30 to-purple-600/30 blur-xl scale-125" />
+                <div className="relative w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center shadow-2xl shadow-indigo-500/40 border border-indigo-400/20">
+                  <MessageSquare size={40} className="text-white" />
+                </div>
               </div>
-              <h2 className="text-3xl font-bold text-white mb-3">Welcome, {user.username}!</h2>
-              <p className="text-text-secondary max-w-sm mx-auto leading-relaxed">
-                Select a conversation from the sidebar or start a new chat to begin messaging.
+              {/* Brand name */}
+              <div className="text-xs font-bold tracking-[0.25em] text-indigo-400 uppercase mb-2">Talkio</div>
+              <h2 className="text-3xl font-bold text-white mb-3 tracking-tight">Hey, {user.username}! 👋</h2>
+              <p className="text-text-secondary max-w-xs mx-auto leading-relaxed text-sm mb-6">
+                Pick a conversation from the left or search for a user to start a new chat.
               </p>
+              {/* Online status pill */}
+              <div className="flex items-center gap-2 bg-bg-card border border-border-subtle rounded-full px-4 py-2 text-sm">
+                <span className={`w-2 h-2 rounded-full ${isConnected ? "bg-emerald-400 animate-pulse" : "bg-red-400"}`} />
+                <span className="text-text-secondary">
+                  {isConnected ? "You're online and ready to chat" : "Offline / Connecting..."}
+                </span>
+              </div>
             </motion.div>
           </div>
         ) : (

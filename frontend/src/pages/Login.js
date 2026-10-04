@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Loader2, MessageSquare } from "lucide-react";
 import API from "../services/api";
 
 export default function Login({ onLogin, onSwitchToRegister }) {
-  const [form, setForm] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [form, setForm]               = useState({ email: "", password: "" });
+  const [error, setError]             = useState("");
+  const [loading, setLoading]         = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const submit = async (e) => {
@@ -25,26 +25,32 @@ export default function Login({ onLogin, onSwitchToRegister }) {
   };
 
   return (
-    <div className="bg-bg-card/80 backdrop-blur-2xl border border-border-subtle rounded-3xl p-8 sm:p-10 w-full shadow-2xl relative">
+    <div className="auth-card">
+      {/* Mobile brand mark (hidden on lg — shown in AuthLayout hero) */}
       <div className="lg:hidden flex items-center justify-center gap-2 mb-8">
-        <span className="text-3xl">🔥</span>
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center bg-gradient-to-br from-primary to-accent-pink">
+          <MessageSquare size={16} className="text-white" />
+        </div>
         <span className="text-xl font-black tracking-tight text-white">Talkio</span>
       </div>
 
+      {/* Heading */}
       <div className="text-center mb-10">
         <h2 className="text-3xl font-extrabold text-white mb-2 tracking-tight">Welcome back</h2>
         <p className="text-text-secondary text-sm">Log in to continue to your account.</p>
       </div>
 
+      {/* Error banner */}
       {error && (
-        <div className="bg-red-500/10 text-red-400 p-3 rounded-xl text-sm mb-6 border border-red-500/20 flex items-center gap-2 animate-in fade-in slide-in-from-top-2">
+        <div className="alert-error">
           <span>⚠️</span> {error}
         </div>
       )}
 
       <form onSubmit={submit} className="space-y-5">
+        {/* Email */}
         <div className="space-y-2">
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wider pl-1">Email</label>
+          <label className="form-label">Email</label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-text-secondary">
               <Mail size={18} />
@@ -54,14 +60,15 @@ export default function Login({ onLogin, onSwitchToRegister }) {
               placeholder="you@example.com"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-border-subtle bg-bg-elevated/50 text-text-primary text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-slate-500"
+              className="input-field input-with-icon"
               required
             />
           </div>
         </div>
 
+        {/* Password */}
         <div className="space-y-2">
-          <label className="text-xs font-semibold text-text-secondary uppercase tracking-wider pl-1">Password</label>
+          <label className="form-label">Password</label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-text-secondary">
               <Lock size={18} />
@@ -71,7 +78,7 @@ export default function Login({ onLogin, onSwitchToRegister }) {
               placeholder="Enter your password"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
-              className="w-full pl-11 pr-12 py-3.5 rounded-xl border border-border-subtle bg-bg-elevated/50 text-text-primary text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-slate-500"
+              className="input-field pl-11 pr-12"
               required
             />
             <button
@@ -84,23 +91,22 @@ export default function Login({ onLogin, onSwitchToRegister }) {
           </div>
         </div>
 
+        {/* Forgot password */}
         <div className="flex justify-end pt-1">
           <button type="button" className="text-xs text-primary font-semibold hover:text-primary/80 transition-colors">
             Forgot password?
           </button>
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-primary via-[#8A71F6] to-accent-pink text-white font-bold text-[15px] shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none mt-2"
-        >
+        {/* Submit */}
+        <button type="submit" disabled={loading} className="btn-primary mt-2">
           {loading ? <Loader2 size={18} className="animate-spin" /> : "Login →"}
         </button>
       </form>
 
+      {/* Switch to Register */}
       <div className="mt-8 pt-6 border-t border-border-subtle text-center text-sm text-text-secondary">
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <button onClick={onSwitchToRegister} className="text-primary font-bold hover:text-primary/80 transition-colors ml-1">
           Create account
         </button>

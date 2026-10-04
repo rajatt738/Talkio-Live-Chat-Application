@@ -13,7 +13,9 @@ export default function AuthLayout({ children }) {
 
         <div className="relative z-10 w-full max-w-lg mx-auto">
           <div className="flex items-center gap-3 mb-12">
-            <span className="text-4xl">🔥</span>
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-gradient-to-br from-primary to-accent-pink shadow-lg shadow-primary/30">
+              <MessageSquare size={20} className="text-white" />
+            </div>
             <span className="text-2xl font-black tracking-tight text-white">Talkio</span>
           </div>
 

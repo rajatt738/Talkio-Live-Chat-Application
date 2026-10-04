@@ -1,0 +1,33 @@
+/* ==========================================================
+   TALKIO — DESIGN TOKENS  (src/styles/theme.css)
+   All CSS custom properties live here. Edit this file to
+   rebrand the entire app in one place.
+   ========================================================== */
+
+@theme {
+  /* ── Background Layers ─────────────────────────────────── */
+  --color-bg-base:     #080B18;
+  --color-bg-sidebar:  #0D1224;
+  --color-bg-card:     #121A30;
+  --color-bg-elevated: #19233B;
+
+  /* ── Brand Colors ──────────────────────────────────────── */
+  --color-primary:      #6C5CE7;
+  --color-accent-blue:  #4285F4;
+  --color-accent-pink:  #D946A0;
+
+  /* ── Text ──────────────────────────────────────────────── */
+  --color-text-primary:   #F8FAFC;
+  --color-text-secondary: #94A3B8;
+
+  /* ── Status ────────────────────────────────────────────── */
+  --color-status-online:  #22C55E;
+  --color-status-offline: #64748B;
+
+  /* ── Borders ───────────────────────────────────────────── */
+  --color-border-subtle: rgba(148, 163, 184, 0.15);
+
+  /* ── Shadows ───────────────────────────────────────────── */
+  --shadow-card:    0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-primary: 0 4px 20px rgba(108, 92, 231, 0.4);
+}
