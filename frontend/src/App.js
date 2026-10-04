@@ -33,6 +33,7 @@ function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [activeTab, setActiveTab] = useState("chats");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isConnected, setIsConnected] = useState(socket.connected);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -51,6 +52,12 @@ function App() {
     socket.connect();
     socket.emit("user:online", user.username);
 
+    const onConnect = () => setIsConnected(true);
+    const onDisconnect = () => setIsConnected(false);
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+
     socket.on("receive:private", (msg) => {
       if (msg.receiver === user.username && msg.sender !== receiverId) {
         setUnreadCounts((prev) => ({
@@ -65,6 +72,8 @@ function App() {
     });
 
     return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
       socket.off("receive:private");
       socket.disconnect();
     };
@@ -284,8 +293,10 @@ function App() {
               </p>
               {/* Online status pill */}
               <div className="flex items-center gap-2 bg-bg-card border border-border-subtle rounded-full px-4 py-2 text-sm">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-text-secondary">You're online and ready to chat</span>
+                <span className={`w-2 h-2 rounded-full ${isConnected ? "bg-emerald-400 animate-pulse" : "bg-red-400"}`} />
+                <span className="text-text-secondary">
+                  {isConnected ? "You're online and ready to chat" : "Offline / Connecting..."}
+                </span>
               </div>
             </motion.div>
           </div>

@@ -17,7 +17,7 @@
 
 .chat-header {
   @apply flex items-center justify-between px-6 py-4
-         backdrop-blur-xl border-b flex-shrink-0 z-20;
+         backdrop-blur-xl border-b shrink-0 z-20;
   background: rgba(18, 26, 48, 0.8);
   border-color: var(--color-border-subtle);
 }
@@ -27,7 +27,7 @@
 
 .chat-header-avatar {
   @apply w-11 h-11 rounded-full flex items-center justify-center
-         font-extrabold text-base text-white flex-shrink-0;
+         font-extrabold text-base text-white shrink-0;
 }
 
 .chat-header-name {
@@ -88,7 +88,7 @@
 
 .msg-avatar {
   @apply w-8 h-8 rounded-full flex items-center justify-center
-         text-xs font-extrabold text-white flex-shrink-0 self-end;
+         text-xs font-extrabold text-white shrink-0 self-end;
   margin-bottom: 18px;
 }
 
@@ -154,7 +154,7 @@
 
 .image-preview-cancel-btn {
   @apply flex items-center justify-center w-10 h-10 rounded-full
-         border-none cursor-pointer flex-shrink-0 transition-colors duration-200;
+         border-none cursor-pointer shrink-0 transition-colors duration-200;
   background: var(--color-bg-elevated);
   color: var(--color-text-secondary);
 }
