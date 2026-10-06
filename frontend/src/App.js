@@ -126,7 +126,7 @@ function App() {
 
   return (
     <div className="flex h-screen bg-bg-base text-text-primary overflow-hidden font-sans">
-      
+
       {/* 1. Primary Narrow Sidebar */}
       {(!isMobile || isMobileMenuOpen) && (
         <div className={`w-[240px] lg:w-[80px] lg:flex-col bg-bg-sidebar flex flex-col justify-between border-r border-border-subtle z-40 transition-all duration-300 ${isMobile ? 'fixed inset-y-0 left-0' : 'relative'}`}>
@@ -134,7 +134,7 @@ function App() {
             <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/30">
               <MessageSquare size={20} className="text-white" />
             </div>
-            
+
             <div className="flex lg:flex-col w-full px-4 lg:px-0 gap-2 lg:items-center">
               <NavButton icon={<MessageSquare size={22} />} label="Chats" active={activeTab === "chats"} onClick={() => setActiveTab("chats")} />
               <NavButton icon={<Users size={22} />} label="Groups" active={activeTab === "groups"} onClick={() => setActiveTab("groups")} />
@@ -162,7 +162,7 @@ function App() {
       {/* 2. Secondary Sidebar (Conversation List) */}
       {(!isMobile || (!chatStarted && !isMobileMenuOpen)) && (
         <div className="w-full lg:w-[320px] xl:w-[360px] bg-bg-card flex flex-col border-r border-border-subtle flex-shrink-0 z-20">
-          
+
           <div className="p-6 pb-4">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-white tracking-tight">Chats</h2>
@@ -223,7 +223,7 @@ function App() {
             </div>
 
             <div className="text-xs font-bold text-text-secondary uppercase tracking-wider mb-2 px-4 mt-6">Recent</div>
-            
+
             {filteredChats.length === 0 ? (
               <div className="text-center py-10 text-text-secondary text-sm">
                 {searchQuery ? "No chats found." : "No recent chats."}
@@ -266,13 +266,13 @@ function App() {
             ←
           </button>
         )}
-        
+
         {isMobile && !chatStarted && (
-           <div className="absolute top-4 left-4 z-50">
-             <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 text-white">
-               <AlignJustify size={24} />
-             </button>
-           </div>
+          <div className="absolute top-4 left-4 z-50">
+            <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 text-white">
+              <AlignJustify size={24} />
+            </button>
+          </div>
         )}
 
         {!chatStarted ? (
@@ -319,7 +319,7 @@ function App() {
 
 // Helper component for Navigation Button
 const NavButton = ({ icon, label, active, onClick }) => (
-  <button 
+  <button
     onClick={onClick}
     className={`relative group flex lg:justify-center items-center gap-4 lg:gap-0 w-full lg:w-12 h-12 lg:rounded-xl transition-all duration-200 px-6 lg:px-0
       ${active ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-bg-elevated hover:text-white'}
