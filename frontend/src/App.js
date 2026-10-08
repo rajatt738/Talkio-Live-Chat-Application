@@ -127,7 +127,7 @@ function App() {
   return (
     <div className="flex h-screen bg-bg-base text-text-primary overflow-hidden font-sans">
 
-      {/* 1. Primary Narrow Sidebar */}
+      {/* 1. Primary Narrow Sidebar......... */}
       {(!isMobile || isMobileMenuOpen) && (
         <div className={`w-[240px] lg:w-[80px] lg:flex-col bg-bg-sidebar flex flex-col justify-between border-r border-border-subtle z-40 transition-all duration-300 ${isMobile ? 'fixed inset-y-0 left-0' : 'relative'}`}>
           <div className="flex flex-col items-center py-6 gap-8">
