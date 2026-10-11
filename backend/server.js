@@ -13,7 +13,7 @@ const socketHandler = require("./sockets/socketHandler");
 const app = express();
 const server = http.createServer(app);
 
-// Connect To MongoDB
+// Connect To MongoDB......
 connectDB();
 
 app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:3000" }));
