@@ -52,20 +52,20 @@ const groupByDate = (msgs) => {
 
 // ── Component ────────────────────────────────────────────────
 export default function Chat({ userId, receiverId, onBack, isMobile }) {
-  const [message, setMessage]         = useState("");
-  const [messages, setMessages]       = useState([]);
-  const [isOnline, setIsOnline]       = useState(false);
-  const [isTyping, setIsTyping]       = useState(false);
-  const [hoveredMsg, setHoveredMsg]   = useState(null);
-  const [showEmoji, setShowEmoji]     = useState(false);
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [isOnline, setIsOnline] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [hoveredMsg, setHoveredMsg] = useState(null);
+  const [showEmoji, setShowEmoji] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
-  const [imageFile, setImageFile]     = useState(null);
-  const [uploading, setUploading]     = useState(false);
+  const [imageFile, setImageFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
   const [lightboxImg, setLightboxImg] = useState(null);
 
-  const bottomRef      = useRef(null);
-  const typingTimeout  = useRef(null);
-  const fileInputRef   = useRef(null);
+  const bottomRef = useRef(null);
+  const typingTimeout = useRef(null);
+  const fileInputRef = useRef(null);
 
   // ── Fetch History ──────────────────────────────────────────
   useEffect(() => {
@@ -155,7 +155,7 @@ export default function Chat({ userId, receiverId, onBack, isMobile }) {
     try {
       const formData = new FormData();
       formData.append("image", imageFile);
-      const res  = await API.post("/upload", formData);
+      const res = await API.post("/upload", formData);
       const data = res.data;
       if (data.imageUrl) {
         socket.emit("send:private", {
@@ -204,7 +204,7 @@ export default function Chat({ userId, receiverId, onBack, isMobile }) {
   };
 
   // ── Derived state ──────────────────────────────────────────
-  const grouped       = groupByDate(messages);
+  const grouped = groupByDate(messages);
   const receiverColor = getAvatarColor(receiverId);
 
   // ── Render ─────────────────────────────────────────────────
@@ -391,8 +391,8 @@ export default function Chat({ userId, receiverId, onBack, isMobile }) {
           <motion.div
             id="emoji-picker"
             initial={{ opacity: 0, scale: 0.9, y: 10 }}
-            animate={{ opacity: 1, scale: 1,   y: 0  }}
-            exit={{ opacity: 0, scale: 0.9,    y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={{ duration: 0.15 }}
             className="emoji-picker"
           >
@@ -409,7 +409,7 @@ export default function Chat({ userId, receiverId, onBack, isMobile }) {
         )}
       </AnimatePresence>
 
-      {/* ── Input Area ──────────────────────────────────────── */}
+      {/* ── Input Area ─────────────────────────────────── */}
       <div className="chat-input-area">
         <input
           type="file"
